@@ -1,0 +1,8 @@
+﻿  Validating architecture
+  Validating sources
+  Copying sources remotely to 'ubuntu.cse.unr.edu'
+  Starting remote build
+  Compiling sources:
+  Sim02.cpp
+  Linking objects
+  Sim02_MarksBrian.vcxproj -> C:\Users\Brian\source\repos\Sim02_MarksBrian\Sim02_MarksBrian\bin\x64\Debug\Sim02_MarksBrian.out
