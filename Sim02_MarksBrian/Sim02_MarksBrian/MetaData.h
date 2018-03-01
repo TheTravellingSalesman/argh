@@ -21,8 +21,9 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
-
 #include "Config.h"
+
+extern Config conf;
 
 //
 // Struct Declarations ////////////////////
@@ -50,18 +51,20 @@ public:
 	int CalculateRunTime(std::vector< std::pair<std::string, int> > config, char metaCode, std::string metaDescriptor, int metaTime) const throw(std::logic_error);
 	void ShowMetaData(std::ofstream & fout, std::vector< std::pair<std::string, int> > configInfo, std::string loggingSetting) const;
 
+	// Meta-Data code block vector (queue)
+	std::vector<MetaDataItem> metaDataItems;
+
 private:
 	// Error handling data items
 	char codes[6] = { 'S', 'A', 'P', 'I', 'O', 'M' };
-	std::string descriptors[14] = { "begin", "finish", "hard drive",
+	std::string descriptors[12] = { "begin", "finish", "hard drive",
 		"keyboard", "scanner", "monitor",
 		"run", "allocate", "projector",
-		"block", "end", "start", "Start Program Meta-Data Code:",
+		"block", "Start Program Meta-Data Code:",
 		"End Program Meta-Data Code" };
 
 	// Meta-Data container
 	MetaDataItem metaDataItem;
-	std::vector<MetaDataItem> metaDataItems;
 };
 
 #endif // !METADATA_H

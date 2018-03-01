@@ -80,13 +80,37 @@ void Timer::stop() throw (std::logic_error) {
 * @throw The timer has either not been started, or is still running.
 * @return The time elapsed between the beginning and end of the timer, in seconds.
 */
-double Timer::getElapsedTime() const throw (std::logic_error) {
+long double Timer::getElapsedSeconds() const throw (std::logic_error) {
 	if (timerWasStarted == true) {
 		throw std::logic_error("getElapsedTime() timer was still running or has not been started yet");
 	}
 	else {
-		double elapsedTime = (duration.tv_sec * 1000000) + duration.tv_usec;
+		long double elapsedTime = (duration.tv_sec * 1000000) + duration.tv_usec;
 		elapsedTime = elapsedTime / 1000000;
 		return elapsedTime;
 	}
 }
+
+long double Timer::getElapsedMilliSeconds() const throw(std::logic_error)
+{
+	if (timerWasStarted == true) {
+		throw std::logic_error("getElapsedMilliSeconds() timer was still running or has not been started yet");
+	}
+	else {
+		long double elapsedTime = (duration.tv_sec * 1000000) + duration.tv_usec;
+		elapsedTime = elapsedTime / 1000;
+		return elapsedTime;
+	}
+}
+
+long double Timer::getElapsedMicroSeconds() const throw(std::logic_error)
+{
+	if (timerWasStarted == true) {
+		throw std::logic_error("getElapsedMicroSeconds() timer was still running or has not been started yet");
+	}
+	else {
+		long double elapsedTime = (duration.tv_sec * 1000000) + duration.tv_usec;
+		return elapsedTime;
+	}
+}
+

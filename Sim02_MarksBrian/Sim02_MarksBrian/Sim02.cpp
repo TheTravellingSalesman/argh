@@ -17,14 +17,17 @@
 #include "Config.h"
 #include "MetaData.h"
 
+// Global declaration of shared classes
+Config conf;
+
 //
 // Main Function Implementation
 //
 int main(int argc, char* argv[]) {
-	Config conf;
-	MetaData md;
 	std::ifstream metaDataFile;
 	std::ofstream logFile;
+
+	MetaData md;
 
 	if (argc != 2) {
 		std::cout << "Error: Can only run exactly one file name passed as a command line parameter." << std::endl;		// Throw error if there is not exactly one argument in command line

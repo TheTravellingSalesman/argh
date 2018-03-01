@@ -63,6 +63,7 @@
   <ItemGroup>
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="MetaData.cpp" />
+    <ClCompile Include="OperationSystem.cpp" />
     <ClCompile Include="ProcessControlBlock.cpp" />
     <ClCompile Include="Sim02.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -70,11 +71,16 @@
   <ItemGroup>
     <ClInclude Include="Config.h" />
     <ClInclude Include="MetaData.h" />
+    <ClInclude Include="OperationSystem.h" />
     <ClInclude Include="ProcessControlBlock.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="makefile" />
+    <None Include="Test_1a.mdf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="configTest.txt" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

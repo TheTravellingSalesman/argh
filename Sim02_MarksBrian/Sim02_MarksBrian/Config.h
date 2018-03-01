@@ -34,6 +34,7 @@ public:
 	// Gets
 	void OpenLogPath(std::ofstream& logFile) throw (std::logic_error);
 	std::string GetLogSetting() const;
+	int GetOperationTime(char metaCode, std::string metaDescriptor) const throw(std::logic_error);
 
 	// Sets
 	void ConfigInit(char* fileIn) throw (std::logic_error);

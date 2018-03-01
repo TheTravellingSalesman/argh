@@ -21,7 +21,7 @@ all: $(TARGET)
 
 # link everything together
 $(TARGET):	$(OBJECTS)
-				$(CC) $(CXXFLAGS) -o $(TARGET) $(OBJECTS)
+				$(CC) -pthread $(CXXFLAGS) -o $(TARGET) $(OBJECTS)
 
 $(OBJECTS):	$(SOURCES) $(HEADERS)
 				$(CC) $(CXXFLAGS) -c $(SOURCES)

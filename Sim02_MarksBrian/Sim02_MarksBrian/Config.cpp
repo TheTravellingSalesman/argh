@@ -48,6 +48,45 @@ std::string Config::GetLogSetting() const {
 	return logSetting;
 }
 
+/** Get Operation Time
+*	\n Looks up the run time of a meta-data operation in the configuration information vector
+*	by name, then returns the milliseconds required per cycle for that operation.
+*	@pre Configuration data must be read and processed
+*	@param operationName is the name of the key being looked up in the configInfo vector of pairs<key, timing>.
+*	@param metaDescriptor is the descriptor being conducted
+*	@param metaTime is the number of cycles the process is being ran for
+*	@return The milliseconds/cycle for a specified meta-data operation.
+*	@throw Error finding timing for specified meta-data operation; check config file.
+*/
+int Config::GetOperationTime(char metaCode, std::string metaDescriptor ) const throw(std::logic_error){
+	// If calculating a processor based process
+	if (metaCode == 'P') {
+		for (unsigned int i = 0; i < configInfo.size(); i++) {
+			if (configInfo[i].first == "processor") {		// look up time in config vector
+				return configInfo[i].second;
+			}
+		}
+	}
+	// If calculating a memory based process
+	else if (metaCode == 'M') {
+		for (unsigned int i = 0; i < configInfo.size(); i++) {
+			if (configInfo[i].first == "memory") {			// look up time in config vector
+				return configInfo[i].second;
+			}
+		}
+	}
+	// For all other processes
+	else {
+		for (unsigned int i = 0; i < configInfo.size(); i++) {	// look up descriptor in config vector
+			if (configInfo[i].first == metaDescriptor) {		// look up time in config vector
+				return configInfo[i].second;
+			}
+		}
+	}
+
+	throw std::logic_error("Config file does not contain timing information for a Meta-Data operation; check Config file.");
+}
+
 /** Config Init.
 *	\n Initializes all configuration data by reading from a specified file from the command line.
 *	Data read from file is checked for accuracy, then pertinent data is stored in a vector of pairs.
@@ -76,6 +115,10 @@ void Config::ConfigInit(char* fileIn) throw (std::logic_error) {
 	ReadKey(fin, ':');					// read in "File Path:"
 	fin.get();							// eat space
 	std::getline(fin, metaDataFilename);			// read in MetaData file name
+	
+	// Make sure meta-data file is of .mdf extention
+	if (metaDataFilename.substr(metaDataFilename.size() - 4) != ".mdf")
+		throw std::logic_error("Meta-data file specified has wrong extention (.mdf); check configuration file.");
 
 	while (fin.peek() != 'L') {				// while next item isn't "Log:"
 		key = ReadKey(fin, ':');			// read in process name (first for configInfo)

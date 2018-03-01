@@ -40,13 +40,24 @@ void MetaData::MetaDataInit(std::ifstream& fin, std::string metaDataFilename) th
 	// Read from file
 	ReadDescriptor(fin, '\n');								// Read in "Start Program Meta-Data Code:"
 	while (fin.peek() != '.') {								// While there is Meta-data to read (delimited by '.')
+
+		if ((fin >> std::ws).peek() == '{')					// Check for meta-data code
+			throw std::logic_error("Meta-Data code missing from meta-data block; check meta-data file.");
+
 		metaDataItem.code = ReadCode(fin);					// Read in meta data code
 		fin.get();											// eat '{'
+
+		if ((fin >> std::ws).peek() == '}')					// Check for meta-data descriptor
+			throw std::logic_error("Meta-Data descriptor missing from meta-data block; check meta-data file.");
+
 		metaDataItem.descriptor = ReadDescriptor(fin, '}');	// Read in descriptor
+
+		if ((fin >> std::ws).peek() == ';')					// Check for meta-data cycle time
+			throw std::logic_error("Meta-Data cycle time missing from meta-data block; check meta-data file.");
+
 		fin >> metaDataItem.timeVal;						// Read in time
 		if (fin.peek() != '.') {
 			fin.get();										// eat ';'
-			fin.get();										// eat ' '
 		}
 		metaDataItems.push_back(metaDataItem);				// Load meta data block into Meta-Data container
 	}
@@ -64,7 +75,7 @@ void MetaData::MetaDataInit(std::ifstream& fin, std::string metaDataFilename) th
 char MetaData::ReadCode(std::ifstream & fin) throw(std::logic_error) {
 	char read;
 
-	fin.get(read);
+	(fin >> std::ws).get(read);
 
 	for (unsigned int i = 0; i < sizeof(codes); i++) {
 		if (read == codes[i]) {
@@ -102,7 +113,9 @@ std::string MetaData::ReadDescriptor(std::ifstream & fin, char delimiter) throw(
 *	@param config is the configuration data stored in a vector of pairs, where the pair contains the process name and the matching timing per cycle.
 *	@param metaDescriptor is the descriptor being conducted
 *	@param metaTime is the number of cycles the process is being ran for
-*	@throw Error finding timing for specified meta-data process
+*	@return The run time in milliseconds for the meta-data operation
+*	@throw Error finding timing for specified meta-data operation
+*	@note AS OF LATEST VERSION, NEED TO SIMPLIFY THIS FUNCTION IN LIGHT OF ADDITION OF EXTERN CONFIG DECLARATION**************
 */
 int MetaData::CalculateRunTime(std::vector< std::pair<std::string, int> > config, char metaCode, std::string metaDescriptor, int metaTime) const throw(std::logic_error) {
 	// If calculating a processor based process
