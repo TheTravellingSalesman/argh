@@ -31,7 +31,7 @@ public:
 	Log();
 
 	// Functions
-	void writeToLog(std::string log);
+	void writeToLog(std::string log, std::ofstream &logFile);
 	void LogToFile(std::string log, std::ofstream &logFile) const throw (std::logic_error);
 	void LogToMonitor(std::string log) const;
 	void CloseLogPath(std::string logPath);

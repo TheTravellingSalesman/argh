@@ -3,93 +3,16 @@
   Copying sources remotely to 'ubuntu.cse.unr.edu'
   Starting remote build
   Compiling sources:
-  Config.cpp
-  In file included from /nfs/home/bmarks/projects/Sim02_MarksBrian/Config.cpp:13:0:
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/Config.h:57:14: error: redeclaration of ‘std::__cxx11::string Config::logPath’
-    std::string logPath;     // Log file path
-                ^
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/Config.h:51:14: note: previous declaration ‘std::__cxx11::string Config::logPath’
-    std::string logPath;         // Log file path
-                ^
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/Config.cpp: In member function ‘void Config::ShowConfig(std::ofstream&)’:
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/Config.cpp:276:26: warning: conversion to ‘__gnu_cxx::__alloc_traits<std::allocator<char> >::value_type {aka char}’ from ‘int’ may alter its value [-Wconversion]
-     configInfo[i].first[0] = tolower(configInfo[i].first[0]);  // Make first letter of each descriptor lower-case
-                            ^
-  
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\Config.h(57,14): error : redeclaration of ‘std::__cxx11::string Config::logPath’
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\Config.h(51,14): message : previous declaration ‘std::__cxx11::string Config::logPath’
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\Config.cpp(276,26): warning : conversion to ‘__gnu_cxx::__alloc_traits<std::allocator<char> >::value_type {aka char}’ from ‘int’ may alter its value [-Wconversion]
-  Log.cpp
-  In file included from /nfs/home/bmarks/projects/Sim02_MarksBrian/Log.h:21:0,
-                   from /nfs/home/bmarks/projects/Sim02_MarksBrian/Log.cpp:1:
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/Config.h:57:14: error: redeclaration of ‘std::__cxx11::string Config::logPath’
-    std::string logPath;     // Log file path
-                ^
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/Config.h:51:14: note: previous declaration ‘std::__cxx11::string Config::logPath’
-    std::string logPath;         // Log file path
-                ^
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/Log.cpp:7:56: error: ISO C++ forbids declaration of ‘writeToLog’ with no type [-fpermissive]
-   Log::writeToLog(std::string log, std::ofstream &logFile){
-                                                          ^
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/Log.cpp:7:1: error: prototype for ‘int Log::writeToLog(std::__cxx11::string, std::ofstream&)’ does not match any in class ‘Log’
-   Log::writeToLog(std::string log, std::ofstream &logFile){
-   ^
-  In file included from /nfs/home/bmarks/projects/Sim02_MarksBrian/Log.cpp:1:0:
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/Log.h:34:7: error: candidate is: void Log::writeToLog(std::__cxx11::string)
-    void writeToLog(std::string log);
-         ^
-  
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\Config.h(57,14): error : redeclaration of ‘std::__cxx11::string Config::logPath’
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\Config.h(51,14): message : previous declaration ‘std::__cxx11::string Config::logPath’
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\Log.cpp(7,56): error : ISO C++ forbids declaration of ‘writeToLog’ with no type [-fpermissive]
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\Log.cpp(7,1): error : prototype for ‘int Log::writeToLog(std::__cxx11::string, std::ofstream&)’ does not match any in class ‘Log’
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\Log.h(34,7): error : candidate is: void Log::writeToLog(std::__cxx11::string)
-  OperatingSystem.cpp
-  In file included from /nfs/home/bmarks/projects/Sim02_MarksBrian/OperatingSystem.h:23:0,
-                   from /nfs/home/bmarks/projects/Sim02_MarksBrian/OperatingSystem.cpp:13:
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/Config.h:57:14: error: redeclaration of ‘std::__cxx11::string Config::logPath’
-    std::string logPath;     // Log file path
-                ^
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/Config.h:51:14: note: previous declaration ‘std::__cxx11::string Config::logPath’
-    std::string logPath;         // Log file path
-                ^
-  
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\Config.h(57,14): error : redeclaration of ‘std::__cxx11::string Config::logPath’
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\Config.h(51,14): message : previous declaration ‘std::__cxx11::string Config::logPath’
   ProcessControlBlock.cpp
-  In file included from /nfs/home/bmarks/projects/Sim02_MarksBrian/ProcessControlBlock.h:22:0,
-                   from /nfs/home/bmarks/projects/Sim02_MarksBrian/ProcessControlBlock.cpp:28:
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/Config.h:57:14: error: redeclaration of ‘std::__cxx11::string Config::logPath’
-    std::string logPath;     // Log file path
-                ^
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/Config.h:51:14: note: previous declaration ‘std::__cxx11::string Config::logPath’
-    std::string logPath;         // Log file path
-                ^
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/ProcessControlBlock.cpp: In member function ‘void ProcessControlBlock::RunOperation(ProcessControlBlock::Operation)’:
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/ProcessControlBlock.cpp:98:19: warning: conversion to ‘unsigned int’ from ‘time_t {aka long int}’ may alter its value [-Wconversion]
-     srand(time(NULL));
-                     ^
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/ProcessControlBlock.cpp:99:52: warning: conversion to ‘int’ from ‘long int’ may alter its value [-Wconversion]
-     int address = (rand() % conf.GetKbytesAvailable());
-                                                      ^
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/ProcessControlBlock.cpp:99:7: warning: unused variable ‘address’ [-Wunused-variable]
-     int address = (rand() % conf.GetKbytesAvailable());
-         ^
-  
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\Config.h(57,14): error : redeclaration of ‘std::__cxx11::string Config::logPath’
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\Config.h(51,14): message : previous declaration ‘std::__cxx11::string Config::logPath’
 C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\ProcessControlBlock.cpp(98,19): warning : conversion to ‘unsigned int’ from ‘time_t {aka long int}’ may alter its value [-Wconversion]
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\ProcessControlBlock.cpp(99,52): warning : conversion to ‘int’ from ‘long int’ may alter its value [-Wconversion]
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\ProcessControlBlock.cpp(99,7): warning : unused variable ‘address’ [-Wunused-variable]
-  Sim02.cpp
-  In file included from /nfs/home/bmarks/projects/Sim02_MarksBrian/Sim02.cpp:17:0:
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/Config.h:57:14: error: redeclaration of ‘std::__cxx11::string Config::logPath’
-    std::string logPath;     // Log file path
-                ^
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/Config.h:51:14: note: previous declaration ‘std::__cxx11::string Config::logPath’
-    std::string logPath;         // Log file path
-                ^
+C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\ProcessControlBlock.cpp(99,8): warning : unused variable ‘address’ [-Wunused-variable]
+  Linking objects
+  /nfs/home/bmarks/projects/Sim02_MarksBrian/obj/x64/Debug/ProcessControlBlock.o: In function `ProcessControlBlock::run()':
+  /nfs/home/bmarks/projects/Sim02_MarksBrian/ProcessControlBlock.cpp:65: undefined reference to `pthread_create'
+  /nfs/home/bmarks/projects/Sim02_MarksBrian/ProcessControlBlock.cpp:66: undefined reference to `pthread_join'
+  collect2: error: ld returned 1 exit status
   
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\Config.h(57,14): error : redeclaration of ‘std::__cxx11::string Config::logPath’
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\Config.h(51,14): message : previous declaration ‘std::__cxx11::string Config::logPath’
-  Timer.cpp
+C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\obj\x64\Debug\ProcessControlBlock.o: In function `ProcessControlBlock: : error : 
+C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\ProcessControlBlock.cpp(65): error : undefined reference to `pthread_create'
+C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\ProcessControlBlock.cpp(66): error : undefined reference to `pthread_join'
+collect2 : error : ld returned 1 exit status

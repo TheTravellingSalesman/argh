@@ -4,7 +4,7 @@ Log::Log(){
 
 }
 
-Log::writeToLog(std::string log, std::ofstream &logFile){
+void Log::writeToLog(std::string log, std::ofstream &logFile){
 	if (conf.logSetting == "Monitor") {
 		LogToMonitor(log);
 	}

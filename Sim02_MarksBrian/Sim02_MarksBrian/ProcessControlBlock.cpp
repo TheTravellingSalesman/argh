@@ -96,7 +96,7 @@ void ProcessControlBlock::RunOperation(Operation operation){
 	if (operation.descriptor == "memory") {
 		// Seed Random Number Generator for memory address generation
 		srand(time(NULL));
-		int address = (rand() % conf.GetKbytesAvailable());
+		long address = (rand() % conf.GetKbytesAvailable());
 		// Log: (ts) Process (pid): (operation.type) 0x(address::hex)
 	}
 	else {

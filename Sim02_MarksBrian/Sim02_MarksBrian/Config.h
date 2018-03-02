@@ -54,9 +54,8 @@ public:
 private:
 	// Config Data Items
 	std::string version;					// Config file version description
-	std::string logPath;					// Log file path
 
-											// Error Handling Data Items
+	// Error Handling Data Items
 	std::string configReads[14] = { "Start Simulator Configuration File",
 		"Version/Phase:",
 		"File Path",
