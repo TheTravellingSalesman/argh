@@ -29,12 +29,13 @@ public:
 	Timer();
 	void start() throw (std::runtime_error);
 	void stop() throw (std::logic_error);
-	long double getElapsedSeconds() const throw (std::logic_error);
-	long double getElapsedMilliSeconds() const throw (std::logic_error);
-	long double getElapsedMicroSeconds() const throw (std::logic_error);
+	long double getElapsedSeconds() const;
+	long double getElapsedMilliSeconds() const;
+	long double getElapsedMicroSeconds() const;
 private:
 	struct timeval beginTime;
 	struct timeval duration;
+	long double startTime;
 	bool timerWasStarted;
 };
 #endif	// !TIMER_H

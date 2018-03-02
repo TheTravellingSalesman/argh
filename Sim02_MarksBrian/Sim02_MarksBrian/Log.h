@@ -18,7 +18,10 @@
 //
 #include <iostream>
 #include <fstream>
+#include <sstream>
+#include <iomanip>
 #include "Config.h"
+#include "Timer.h"
 
 extern Config conf;
 
@@ -29,15 +32,20 @@ class Log {
 public:
 	// Constructors
 	Log();
-
+	
 	// Functions
-	void writeToLog(std::string log, std::ofstream &logFile);
-	void LogToFile(std::string log, std::ofstream &logFile) const throw (std::logic_error);
-	void LogToMonitor(std::string log) const;
-	void CloseLogPath(std::string logPath);
+	void initializeLogSettings();
+	void writeToLog(std::string log);
+	void writeWithTimestamp(std::string log);
+
+	void streamToFile() throw (std::logic_error);
 
 private:
-	
+	Timer logTimer;
+
+	// Control data
+	bool initialized, logToMonitor, logToFile;
+	std::ostringstream outstream;
 };
 
 

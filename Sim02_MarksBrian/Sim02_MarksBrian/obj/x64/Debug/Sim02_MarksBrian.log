@@ -1,18 +1,4 @@
 ﻿  Validating architecture
   Validating sources
   Copying sources remotely to 'ubuntu.cse.unr.edu'
-  Starting remote build
-  Compiling sources:
-  ProcessControlBlock.cpp
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\ProcessControlBlock.cpp(98,19): warning : conversion to ‘unsigned int’ from ‘time_t {aka long int}’ may alter its value [-Wconversion]
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\ProcessControlBlock.cpp(99,8): warning : unused variable ‘address’ [-Wunused-variable]
-  Linking objects
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/obj/x64/Debug/ProcessControlBlock.o: In function `ProcessControlBlock::run()':
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/ProcessControlBlock.cpp:65: undefined reference to `pthread_create'
-  /nfs/home/bmarks/projects/Sim02_MarksBrian/ProcessControlBlock.cpp:66: undefined reference to `pthread_join'
-  collect2: error: ld returned 1 exit status
-  
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\obj\x64\Debug\ProcessControlBlock.o: In function `ProcessControlBlock: : error : 
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\ProcessControlBlock.cpp(65): error : undefined reference to `pthread_create'
-C:\Users\Brian\source\repos\argh\Sim02_MarksBrian\Sim02_MarksBrian\ProcessControlBlock.cpp(66): error : undefined reference to `pthread_join'
-collect2 : error : ld returned 1 exit status
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\VC\VCTargets\Application Type\Linux\1.0\Linux.targets(89,5): error : Could not connect to the remote system. Please verify your connection settings, and that your machine is on the network and reachable.

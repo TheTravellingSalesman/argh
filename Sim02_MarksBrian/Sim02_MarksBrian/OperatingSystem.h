@@ -16,14 +16,17 @@
 // Header Files ///////////////////////////
 //
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <string>
 #include <vector>
 #include <stdexcept>
 #include "Config.h"
+#include "Log.h"
 #include "ProcessControlBlock.h"
 
 extern Config conf;
+extern Log logger;
 
 typedef ProcessControlBlock::Operation Operation;
 typedef ProcessControlBlock::State State;
@@ -58,7 +61,6 @@ public:
 	void setExit(ProcessControlBlock process) throw (std::logic_error);
 
 private:
-
 	// Container of all processes (set of meta-data codes A{begin}0; to A{finish}0;)
 	std::vector<ProcessControlBlock> processQueue;
 

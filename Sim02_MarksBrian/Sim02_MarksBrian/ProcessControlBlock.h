@@ -20,8 +20,10 @@
 #include <pthread.h>
 #include "Timer.h"
 #include "Config.h"
+#include "Log.h"
 
 extern Config conf;		// Forward declaration of global Config item initialized in main 
+extern Log logger;
 
 //
 // Class Function Declarations ////////////
@@ -93,6 +95,7 @@ private:
 
 	// Private functions
 	void RunOperation(Operation operation);
+	void HandleMemoryOperation(Operation operation);
 
 	// Private data
 	int processID;

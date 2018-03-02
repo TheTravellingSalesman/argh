@@ -1,34 +1,57 @@
 #include "Log.h"
 
 Log::Log(){
-
+	logToMonitor = false;
+	logToFile = false;
 }
 
-void Log::writeToLog(std::string log, std::ofstream &logFile){
+void Log::initializeLogSettings(){
 	if (conf.logSetting == "Monitor") {
-		LogToMonitor(log);
+		logToMonitor = true;
 	}
-	else if (conf.logSetting == "File") {
-		LogToFile(log, logFile);
+	else if (conf.logSetting == "Both") {
+		logToMonitor = true;
+		logToFile = true;
 	}
 	else {
-		LogToFile(log, logFile);
-		LogToMonitor(log);
+		logToFile = true;
+	}
+
+	logTimer.start();
+
+	initialized = true;
+}
+
+void Log::writeToLog(std::string log){
+	if (logToMonitor) {
+		std::cout << log << std::endl;
+	}
+	if (logToFile) {
+		outstream << log << std::endl;
 	}
 }
 
-void Log::LogToFile(std::string log, std::ofstream &logFile) const throw (std::logic_error){
-	if (!logFile.is_open()) {
-		logFile.open(conf.logPath);
+void Log::writeWithTimestamp(std::string log){
+	if (logToMonitor) {
+		std::cout << std::fixed << std::setprecision(6) << logTimer.getElapsedSeconds() << " - " << log << std::endl;
 	}
-	if (logFile.good()) {
-		logFile << log << std::endl;
-	}
-	else {
-		throw std::logic_error("Could not log because of bad file path.");
+	if (logToFile) {
+		outstream << std::fixed << std::setprecision(6) << logTimer.getElapsedSeconds() << " - " << log << std::endl;
 	}
 }
 
-void Log::LogToMonitor(std::string log) const{
-	std::cout << log << std::endl;
+void Log::streamToFile() throw(std::logic_error) {
+	if (logToFile) {
+		std::ofstream fout;
+
+		fout.open(conf.logPath, std::ofstream::out);
+		if(fout.good()){
+			fout << outstream.rdbuf();
+
+			fout.close();
+		}
+		else {
+			throw std::logic_error("streamToFile(): Bad log file");
+		}
+	}
 }

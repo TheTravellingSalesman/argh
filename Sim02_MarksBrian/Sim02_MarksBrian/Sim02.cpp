@@ -14,10 +14,15 @@
 // Header Files ///////////////////////
 //
 
+#include <iostream>
+#include <unistd.h>
 #include "Config.h"
+#include "Log.h"
+#include "OperatingSystem.h"
 
 // Global declaration of shared classes
 Config conf;
+Log logger;
 
 //
 // Main Function Implementation
@@ -33,10 +38,9 @@ int main(int argc, char* argv[]) {
 
 	conf.ConfigInit(argv[1]);		// Initialize config information
 
-	/*	I/O for Sim01
-	
-	conf.ShowConfig(logFile);	// Show config info
-	
-	*/
+	OperatingSystem os;
+
+	os.runSimulation();
+
 	return 0;
 }

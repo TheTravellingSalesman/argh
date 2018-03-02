@@ -58,13 +58,19 @@ bool ProcessControlBlock::run() throw (std::logic_error){
 		if (anOp->code == 'I' || anOp->code == 'O') {
 			// Set process to WAITING
 			processState = WAITING;
+			
 			// Log: Process (pid): start (anOp->descriptor) (anOp->type)
+			logger.writeWithTimestamp("Process " + std::to_string(processID) + ": start " + anOp->descriptor + " " + anOp->type);
+
 			long runTime = getRunTimeInMilliSeconds(*anOp);				// Get run time for operation in milliseconds
 			runTime = runTime * 1000;									// Convert to microseconds
 			void* runningTime = (void*)runTime;							// Explicitly cast run time to (void*)
 			pthread_create(&ioThread, NULL, uSleepThread, runningTime);
 			pthread_join(ioThread, NULL);
+			
 			// Log: Process (pid): end (anOp->descriptor) (anOp->type)
+			logger.writeWithTimestamp("Process " + std::to_string(processID) + ": end " + anOp->descriptor + " " + anOp->type);
+
 			// Set back to RUNNING
 			processState = RUNNING;
 		}
@@ -93,14 +99,12 @@ State ProcessControlBlock::getState() const{
 }
 
 void ProcessControlBlock::RunOperation(Operation operation){
-	if (operation.descriptor == "memory") {
-		// Seed Random Number Generator for memory address generation
-		srand(time(NULL));
-		long address = (rand() % conf.GetKbytesAvailable());
-		// Log: (ts) Process (pid): (operation.type) 0x(address::hex)
+	if (operation.type == "memory") {
+		HandleMemoryOperation(operation);
 	}
 	else {
 		// Log: (ts) Process (pid): start (operation)
+		logger.writeWithTimestamp("Process " + std::to_string(processID) + ": start " + operation.type);
 
 		// Sleep for required time
 		long runTime = getRunTimeInMilliSeconds(operation);		// Get run time for operation in milliseconds
@@ -109,6 +113,30 @@ void ProcessControlBlock::RunOperation(Operation operation){
 		uSleepThread(runningTime);								// Sleep for as long as necessary
 
 		// Log: (ts) Process (pid): start (operation)
+		logger.writeWithTimestamp("Process " + std::to_string(processID) + ": end " + operation.type);
+
+	}
+}
+
+void ProcessControlBlock::HandleMemoryOperation(Operation operation){
+	if (operation.descriptor == "allocate") {
+		// Seed Random Number Generator for memory address generation
+		srand(time(NULL));
+		long address = (rand() % conf.GetKbytesAvailable());
+		// Log: (ts) Process (pid): (operation.type) 0x(address::hex)
+		logger.writeWithTimestamp("Process " + std::to_string(processID) + ": " + operation.type + "0x" + std::to_string(address));
+	}
+	else {
+
+		logger.writeWithTimestamp("Process " + std::to_string(processID) + ": start memory blocking");
+
+		// Sleep for required time
+		long runTime = getRunTimeInMilliSeconds(operation);		// Get run time for operation in milliseconds
+		runTime = runTime * 1000;								// Convert to microseconds
+		void* runningTime = (void*)runTime;						// Explicitly cast run time to (void*)
+		uSleepThread(runningTime);								// Sleep for as long as necessary
+
+		logger.writeWithTimestamp("Process " + std::to_string(processID) + ": end memory blocking");
 	}
 }
 

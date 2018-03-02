@@ -26,44 +26,45 @@ OperatingSystem::OperatingSystem() {
 }
 
 void OperatingSystem::processMetaData() throw (std::logic_error) {
-	MetaData md;
+	if (!metaDataProcessed) {
+		MetaData md;
 
-	if (md.getInitializedStatus()) {
-		// Parse through all existing meta-data items and handle them appropriately
-		for (unsigned int i = 0; i < md.metaDataItems.size(); i++) {
-			// If system has not been started, look for system start
-			if (!systemStarted && md.metaDataItems[i].code == 'S' && md.metaDataItems[i].descriptor == "begin") {
-				systemStarted = true;
-			}
-			else if (!systemStarted) {
-				throw std::logic_error("Cannot execute meta-data codes before system has been started; Check Meta-Data file.");
-			}
+		if (md.getInitializedStatus()) {
+			// Parse through all existing meta-data items and handle them appropriately
+			for (unsigned int i = 0; i < md.metaDataItems.size(); i++) {
+				// If system has not been started, look for system start
+				if (!systemStarted && md.metaDataItems[i].code == 'S' && md.metaDataItems[i].descriptor == "begin") {
+					systemStarted = true;
+				}
+				else if (!systemStarted) {
+					throw std::logic_error("Cannot execute meta-data codes before system has been started; Check Meta-Data file.");
+				}
 
-			// Application handling
-			else if (md.metaDataItems[i].code == 'A') {
-				bool applicationOK = handleApplicationCode(md.metaDataItems[i]);
-				if (!applicationOK)
-					throw std::logic_error("Error in handling an application-type Meta-Data code block; Check Meta-Data file.");
-			}
+				// Application handling
+				else if (md.metaDataItems[i].code == 'A') {
+					bool applicationOK = handleApplicationCode(md.metaDataItems[i]);
+					if (!applicationOK)
+						throw std::logic_error("Error in handling an application-type Meta-Data code block; Check Meta-Data file.");
+				}
 
-			// S{finish}0;
-			else if (md.metaDataItems[i].code == 'S' && md.metaDataItems[i].descriptor == "finish") {
-				systemStarted = false;
-				systemExited = true;
-			}
+				// S{finish}0;
+				else if (md.metaDataItems[i].code == 'S' && md.metaDataItems[i].descriptor == "finish") {
+					systemStarted = false;
+					systemExited = true;
+				}
 
-			// Adding operations to an open application
-			else{
-				addOperation(processQueue[processCount], md.metaDataItems[i]);
-			}
+				// Adding operations to an open application
+				else {
+					addOperation(processQueue[processCount], md.metaDataItems[i]);
+				}
 
+			}
+		}
+
+		else {
+			throw std::logic_error("Operating system cannot process Meta-Data before Meta-Data is initialized. Failure initializing Meta-Data.");
 		}
 	}
-	
-	else {
-		throw std::logic_error("Operating system cannot process Meta-Data before Meta-Data is initialized. Failure initializing Meta-Data.");
-	}
-
 	metaDataProcessed = true;
 }
 
@@ -99,14 +100,21 @@ void OperatingSystem::addOperation(ProcessControlBlock process, MetaDataItem new
 void OperatingSystem::runSimulation() throw (std::logic_error){
 	if (metaDataProcessed) {
 		// Start timestamp timer
+		logger.initializeLogSettings();
 
 		// Log: (ts) Simulator Program Starting
+		logger.writeWithTimestamp("Simulator program starting");
 
 		// Loop through processes
 		for (unsigned int i = 0; i < processQueue.size(); i++) {
 			// Log: (ts) OS: Preparing Process (i)
+			logger.writeWithTimestamp("OS: preparing process" + std::to_string(i));
+
 			setReady(processQueue[i]);
+
 			// Log: (ts) OS: Starting Process (i)
+			logger.writeWithTimestamp("OS: starting process" + std::to_string(i));
+
 			setRunning(processQueue[i]);
 			bool processOK = false;
 			processOK = processQueue[i].run();
@@ -115,10 +123,12 @@ void OperatingSystem::runSimulation() throw (std::logic_error){
 				throw std::logic_error("Process has failed to execute successfully.");
 			}
 			// Log: (ts) OS: Removing Process (i)
+			logger.writeWithTimestamp("OS: removing process" + std::to_string(i));
 			setExit(processQueue[i]);
 		}
 
 		// Log: (ts) Simulator Program Ending
+		logger.writeWithTimestamp("Simulator program ending");
 	}
 
 	else {
