@@ -18,10 +18,10 @@
 #include <string>
 #include <vector>
 #include <pthread.h>
-#include "MetaData.h"
 #include "Timer.h"
+#include "Config.h"
 
-extern Config conf;		// Forward declaration of global Config item initialized in main function
+extern Config conf;		// Forward declaration of global Config item initialized in main 
 
 //
 // Class Function Declarations ////////////
@@ -41,9 +41,11 @@ public:
 	// Struct for information about individual operations within this process
 	struct Operation {
 		Operation(char opCode, std::string opDescription, int cycleTime)
-			: code(opCode), descriptor(opDescription), time(cycleTime) {};
+			: code(opCode), descriptor(opDescription), time(cycleTime) {
+			codeToType();
+		};
 
-		void codeToString() {
+		void codeToType() {
 			switch (code) {
 				case 'S':
 					type = "system";
@@ -52,16 +54,16 @@ public:
 					type = "application";
 					break;
 				case 'P':
-					type = "process";
+					type = " processing action";
 					break;
 				case 'I':
-					type = "input";
+					type = " input";
 					break;
 				case 'O':
-					type = "output";
+					type = " output";
 					break;
 				case 'M':
-					type = "memory";
+					type = " memory allocated at ";
 					break;
 				default:
 					type = "Operation type error";
@@ -78,13 +80,14 @@ public:
 	ProcessControlBlock(int pid) : processID(pid), processState(ProcessControlBlock::START){};
 
 	// Member functions
-	void addOperation(MetaDataItem newOp);
 	void changeState(State newState);
 	bool run() throw (std::logic_error);
+	void addOperation(Operation newOp);
 	
 	// Accessors
 	int getPID() const;
 	long getRunTimeInMilliSeconds(Operation operation) const;
+	State getState() const;
 
 private:
 

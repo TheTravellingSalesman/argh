@@ -32,9 +32,10 @@ public:
 	Config();
 
 	// Gets
-	void OpenLogPath(std::ofstream& logFile) throw (std::logic_error);
+	void OpenLogPath(std::ofstream& logFile) throw(std::logic_error);
 	std::string GetLogSetting() const;
 	int GetOperationTime(char metaCode, std::string metaDescriptor) const throw(std::logic_error);
+	long GetKbytesAvailable() const throw(std::logic_error);
 
 	// Sets
 	void ConfigInit(char* fileIn) throw (std::logic_error);
@@ -46,13 +47,14 @@ public:
 
 	// Public Data
 	std::vector< std::pair<std::string, int> > configInfo;	// vector of pairs<process name, timing> stores all meta-data names and timings
-	std::string metaDataFilename;				// Meta Data file path
+	std::string metaDataFilename;							// Meta Data file path
+	std::string logPath;									// Log file path
+	std::string logSetting;					// Log to monitor, file, or both
 
 private:
 	// Config Data Items
 	std::string version;					// Config file version description
 	std::string logPath;					// Log file path
-	std::string logSetting;					// Log to monitor, file, or both
 
 											// Error Handling Data Items
 	std::string configReads[14] = { "Start Simulator Configuration File",

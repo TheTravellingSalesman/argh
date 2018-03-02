@@ -8,10 +8,10 @@ CC=g++
 CXXFLAGS = -g -Wall -std=c++11
 
 # Source files
-SOURCES = Config.cpp MetaData.cpp Timer.cpp ProcessControlBlock.cpp Sim02.cpp
+SOURCES = Config.cpp Timer.cpp ProcessControlBlock.cpp OperatingSystem.cpp Log.cpp Sim02.cpp
 
 # header file dependencies
-HEADERS = Config.h MetaData.h Timer.h ProcessControlBlock.h
+HEADERS = Config.h Timer.h ProcessControlBlock.h OperatingSystem.h Log.h
 
 # Object files
 OBJECTS = $(SOURCES:.cpp=.o)

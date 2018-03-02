@@ -62,16 +62,16 @@
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
     <ClCompile Include="Config.cpp" />
-    <ClCompile Include="MetaData.cpp" />
-    <ClCompile Include="OperationSystem.cpp" />
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="OperatingSystem.cpp" />
     <ClCompile Include="ProcessControlBlock.cpp" />
     <ClCompile Include="Sim02.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config.h" />
-    <ClInclude Include="MetaData.h" />
-    <ClInclude Include="OperationSystem.h" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="OperatingSystem.h" />
     <ClInclude Include="ProcessControlBlock.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>

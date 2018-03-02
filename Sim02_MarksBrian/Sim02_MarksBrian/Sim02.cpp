@@ -15,7 +15,6 @@
 //
 
 #include "Config.h"
-#include "MetaData.h"
 
 // Global declaration of shared classes
 Config conf;
@@ -27,8 +26,6 @@ int main(int argc, char* argv[]) {
 	std::ifstream metaDataFile;
 	std::ofstream logFile;
 
-	MetaData md;
-
 	if (argc != 2) {
 		std::cout << "Error: Can only run exactly one file name passed as a command line parameter." << std::endl;		// Throw error if there is not exactly one argument in command line
 		exit(0);
@@ -36,13 +33,9 @@ int main(int argc, char* argv[]) {
 
 	conf.ConfigInit(argv[1]);		// Initialize config information
 
-	md.MetaDataInit(metaDataFile, conf.metaDataFilename);	// Initialize meta-data information
-
 	/*	I/O for Sim01
 	
 	conf.ShowConfig(logFile);	// Show config info
-
-	md.ShowMetaData(logFile, conf.configInfo, conf.GetLogSetting());	// Show meta-data info
 	
 	*/
 	return 0;

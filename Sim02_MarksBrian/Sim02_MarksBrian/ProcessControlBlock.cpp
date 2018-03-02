@@ -23,9 +23,10 @@
 //
 // Header Files ////////////////////////////////////////
 //
+#include <stdlib.h>
+#include <time.h>
 #include "ProcessControlBlock.h"
 #include "Config.h"
-#include "MetaData.h"
 
 typedef ProcessControlBlock::State State;
 
@@ -42,10 +43,6 @@ void* uSleepThread(void* threadarg) {
 	return NULL;
 }
 
-void ProcessControlBlock::addOperation(MetaDataItem newOp){
-	OperationsQueue->push_back(Operation(newOp.code, newOp.descriptor, newOp.timeVal));
-}
-
 void ProcessControlBlock::changeState(State newState){
 	processState = newState;
 }
@@ -59,11 +56,17 @@ bool ProcessControlBlock::run() throw (std::logic_error){
 
 		// Create a thread if the operation is for I/O
 		if (anOp->code == 'I' || anOp->code == 'O') {
+			// Set process to WAITING
+			processState = WAITING;
+			// Log: Process (pid): start (anOp->descriptor) (anOp->type)
 			long runTime = getRunTimeInMilliSeconds(*anOp);				// Get run time for operation in milliseconds
 			runTime = runTime * 1000;									// Convert to microseconds
 			void* runningTime = (void*)runTime;							// Explicitly cast run time to (void*)
 			pthread_create(&ioThread, NULL, uSleepThread, runningTime);
 			pthread_join(ioThread, NULL);
+			// Log: Process (pid): end (anOp->descriptor) (anOp->type)
+			// Set back to RUNNING
+			processState = RUNNING;
 		}
 		else{
 			RunOperation(*anOp);
@@ -71,6 +74,10 @@ bool ProcessControlBlock::run() throw (std::logic_error){
 	}
 
 	return true;
+}
+
+void ProcessControlBlock::addOperation(Operation newOp){
+	OperationsQueue->push_back(newOp);
 }
 
 int ProcessControlBlock::getPID() const{
@@ -81,15 +88,27 @@ long ProcessControlBlock::getRunTimeInMilliSeconds(Operation operation) const{
 	return operation.time * conf.GetOperationTime(operation.code, operation.descriptor);
 }
 
+State ProcessControlBlock::getState() const{
+	return processState;
+}
+
 void ProcessControlBlock::RunOperation(Operation operation){
-	// Log start timestamp
+	if (operation.descriptor == "memory") {
+		// Seed Random Number Generator for memory address generation
+		srand(time(NULL));
+		int address = (rand() % conf.GetKbytesAvailable());
+		// Log: (ts) Process (pid): (operation.type) 0x(address::hex)
+	}
+	else {
+		// Log: (ts) Process (pid): start (operation)
 
-	// Sleep for required time
-	long runTime = getRunTimeInMilliSeconds(operation);		// Get run time for operation in milliseconds
-	runTime = runTime * 1000;								// Convert to microseconds
-	void* runningTime = (void*)runTime;						// Explicitly cast run time to (void*)
-	uSleepThread(runningTime);								// Sleep for as long as necessary
+		// Sleep for required time
+		long runTime = getRunTimeInMilliSeconds(operation);		// Get run time for operation in milliseconds
+		runTime = runTime * 1000;								// Convert to microseconds
+		void* runningTime = (void*)runTime;						// Explicitly cast run time to (void*)
+		uSleepThread(runningTime);								// Sleep for as long as necessary
 
-	// Log end timestamp
+		// Log: (ts) Process (pid): start (operation)
+	}
 }
 

@@ -87,6 +87,22 @@ int Config::GetOperationTime(char metaCode, std::string metaDescriptor ) const t
 	throw std::logic_error("Config file does not contain timing information for a Meta-Data operation; check Config file.");
 }
 
+long Config::GetKbytesAvailable() const throw(std::logic_error){
+	long unsigned int element = (configInfo.size() - 4);
+	if (configInfo[element].first[15] == 'k') {
+		return configInfo[element].second;
+	}
+	else if (configInfo[element].first[15] == 'M') {
+		return (configInfo[element].second * 1000);
+	}
+	else if (configInfo[element].first[15] == 'G') {
+		return (configInfo[element].second * 1000000);
+	}
+	else {
+		throw std::logic_error("Could not determine system memory size in kbytes, Mbytes, or Gbytes; Check config file.");
+	}
+}
+
 /** Config Init.
 *	\n Initializes all configuration data by reading from a specified file from the command line.
 *	Data read from file is checked for accuracy, then pertinent data is stored in a vector of pairs.
