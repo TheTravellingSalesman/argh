@@ -79,7 +79,7 @@ bool ProcessControlBlock::run(){
 			logger.writeWithTimestamp("Process " + std::to_string(processID+1) + ": start " + anOp->descriptor + anOp->type);
 
 			long runTime = getRunTimeInMilliSeconds(*anOp);				// Get run time for operation in milliseconds
-			//runTime = runTime * 1000;									// Convert to microseconds
+			runTime = runTime * 1000;									// Convert to microseconds
 			void* runningTime = (void*)runTime;							// Explicitly cast run time to (void*)
 			pthread_create(&ioThread, NULL, uSleepThread, runningTime);
 			pthread_join(ioThread, NULL);
@@ -182,7 +182,7 @@ void ProcessControlBlock::RunOperation(Operation operation){
 
 		// Sleep for required time
 		long runTime = getRunTimeInMilliSeconds(operation);		// Get run time for operation in milliseconds
-		//runTime = runTime * 1000;								// Convert to microseconds
+		runTime = runTime * 1000;								// Convert to microseconds
 		void* runningTime = (void*)runTime;						// Explicitly cast run time to (void*)
 		uSleepThread(runningTime);								// Sleep for as long as necessary
 
@@ -211,7 +211,7 @@ void ProcessControlBlock::HandleMemoryOperation(Operation operation){
 
 		// Sleep for required time
 		long runTime = getRunTimeInMilliSeconds(operation);		// Get run time for operation in milliseconds
-		//runTime = runTime * 1000;								// Convert to microseconds
+		runTime = runTime * 1000;								// Convert to microseconds
 		void* runningTime = (void*)runTime;						// Explicitly cast run time to (void*)
 		uSleepThread(runningTime);								// Sleep for as long as necessary
 
