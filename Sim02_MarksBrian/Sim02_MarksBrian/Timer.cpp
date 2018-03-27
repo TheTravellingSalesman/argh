@@ -52,6 +52,7 @@ void Timer::start() throw (std::runtime_error) {
 	}
 	else {
 		gettimeofday(&beginTime, NULL);
+		startTime = (beginTime.tv_sec * 1000000 + beginTime.tv_usec);
 		timerWasStarted = true;
 	}
 }
@@ -77,22 +78,34 @@ void Timer::stop() throw (std::logic_error) {
 /** Measure and return the difference in time between the start
 * and stop of the timer (in seconds).
 * @pre The beginning and the end of the interval have been stored.
-* @throw The timer has either not been started, or is still running.
-* @return The time elapsed between the beginning and end of the timer, in seconds.
+* @return The time elapsed between the timer start and the present time, in seconds.
 */
-long double Timer::getElapsedSeconds() const{
-		long double elapsedTime = (duration.tv_sec * 1000000 + duration.tv_usec - startTime);
+long double Timer::getElapsedSeconds(){
+	gettimeofday(&duration, NULL);
+		long double elapsedTime = ((duration.tv_sec * 1000000 + duration.tv_usec) - startTime);
 		elapsedTime = elapsedTime / 1000000;
 		return elapsedTime;
 }
 
-long double Timer::getElapsedMilliSeconds() const{
+/** Measure and return the difference in time between the start
+* and stop of the timer (in ms).
+* @pre The beginning and the end of the interval have been stored.
+* @return The time elapsed between the timer start and the present time, in ms.
+*/
+long double Timer::getElapsedMilliSeconds(){
+	gettimeofday(&duration, NULL);
 		long double elapsedTime = (duration.tv_sec * 1000000 + duration.tv_usec - startTime);
 		elapsedTime = elapsedTime / 1000;
 		return elapsedTime;
 }
 
-long double Timer::getElapsedMicroSeconds() const{
+/** Measure and return the difference in time between the start
+* and stop of the timer (in us).
+* @pre The beginning and the end of the interval have been stored.
+* @return The time elapsed between the timer start and the present time, in us.
+*/
+long double Timer::getElapsedMicroSeconds(){
+	gettimeofday(&duration, NULL);
 		long double elapsedTime = (duration.tv_sec * 1000000 + duration.tv_usec - startTime);
 		return elapsedTime;
 }

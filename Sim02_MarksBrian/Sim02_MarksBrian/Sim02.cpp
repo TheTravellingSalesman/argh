@@ -1,12 +1,9 @@
 /**
-*	@file Sim01.cpp
-*	@mainpage Sim01
+*	@file Sim02.cpp
+*	@mainpage Sim02
 *	@author Brian Marks
-*	@version 1.1
-*	@details First phase of a simulation of an operating system. This phase handles the reading of configuration data from a file,
-*	which it stores, and runs operations upon. Within the configuration data lies a file directory for meta-data information
-*	which is also stored, and plays a role in data operations. The configuration data contains the timing per cycle for various
-*	meta-data processes, then the meta-data contains the processes which are run, and for how many cycles it will run.
+*	@version 1.2
+*	@details First phase of a simulation of an operating system. This phase handles the simulation of running a single process within the system.
 *	@date Monday, Feb. 26, 2018
 */
 
@@ -28,8 +25,6 @@ Log logger;
 // Main Function Implementation
 //
 int main(int argc, char* argv[]) {
-	std::ifstream metaDataFile;
-	std::ofstream logFile;
 
 	if (argc != 2) {
 		std::cout << "Error: Can only run exactly one file name passed as a command line parameter." << std::endl;		// Throw error if there is not exactly one argument in command line
@@ -38,9 +33,11 @@ int main(int argc, char* argv[]) {
 
 	conf.ConfigInit(argv[1]);		// Initialize config information
 
-	OperatingSystem os;
+	OperatingSystem os;				// Initialize the operating system
 
-	os.runSimulation();
+	os.runSimulation();				// Run the simulation
+
+	logger.streamToFile();			// Log the results
 
 	return 0;
 }

@@ -43,20 +43,18 @@ public:
 	// Additional functions
 	void SetLogSetting(std::string type) throw(std::logic_error);
 	std::string ReadKey(std::ifstream& fin, char delimiter) throw(std::logic_error);
-	void ShowConfig(std::ofstream& fout);
+	//void ShowConfig(std::ofstream& fout);
 
 	// Public Data
 	std::vector< std::pair<std::string, int> > configInfo;	// vector of pairs<process name, timing> stores all meta-data names and timings
 	std::string metaDataFilename;							// Meta Data file path
 	std::string logPath;									// Log file path
-	std::string logSetting;					// Log to monitor, file, or both
+	std::string logSetting;									// Log to monitor, file, or both
+	std::string version;									// Config file version description
 
 private:
-	// Config Data Items
-	std::string version;					// Config file version description
-
 	// Error Handling Data Items
-	std::string configReads[14] = { "Start Simulator Configuration File",
+	std::string configReads[16] = { "Start Simulator Configuration File",
 		"Version/Phase:",
 		"File Path",
 		"Monitor display time {msec}",
@@ -67,6 +65,8 @@ private:
 		"Memory cycle time {msec}",
 		"Projector cycle time {msec}",
 		"System memory {kbytes}",
+		"System memory {Mbytes}",
+		"System memory {Gbytes}",
 		"Log:",
 		"Log File Path",
 		"End Simulator Configuration Fil" };		// Array holding all possible valid config file key reads (for spell checking)

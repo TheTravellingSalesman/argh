@@ -40,7 +40,7 @@ struct MetaDataItem {
 	char code;
 	std::string descriptor;
 	int timeVal;
-} metaDataItem;
+};
 
 class OperatingSystem {
 public:
@@ -51,7 +51,7 @@ public:
 	void processMetaData() throw (std::logic_error);						// Processing for full queue of meta-data commands
 	bool handleApplicationCode(MetaDataItem md) throw (std::logic_error);
 
-	void addOperation(ProcessControlBlock process, MetaDataItem newOp);		// Add operation to a process' operationsQueue
+	void addOperation(ProcessControlBlock &process, MetaDataItem newOp);		// Add operation to a process' operationsQueue
 
 	void runSimulation() throw (std::logic_error);
 
@@ -89,7 +89,10 @@ private:
 		int CalculateRunTime(char metaCode, std::string metaDescriptor, int metaTime) const;
 
 		// Debugging functions
-		void ShowMetaData(std::ofstream & fout, std::string loggingSetting) const;
+		//void ShowMetaData(std::ofstream & fout, std::string loggingSetting) const;
+
+		// Individual Meta-Data Item
+		MetaDataItem metaDataItem;
 
 		// Container of all Meta-Data items
 		std::vector<MetaDataItem> metaDataItems;

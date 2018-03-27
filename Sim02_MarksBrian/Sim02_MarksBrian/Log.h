@@ -1,9 +1,8 @@
 /**
-*	@file Config.h
+*	@file Log.h
 *	@author Brian Marks
-*	@version 1.2
-*	@details Class declaration for the storing and handling of Configuration file data
-*	@note 1.2 update: Adjusted ReadKey to be compatible with new configuration file format/descriptor options.
+*	@version 1.0
+*	@details Class declaration for the logger which will handle all console and file I/O
 *	@date Monday, Feb. 26, 2018
 */
 
@@ -37,6 +36,7 @@ public:
 	void initializeLogSettings();
 	void writeToLog(std::string log);
 	void writeWithTimestamp(std::string log);
+	void writeWithAddress(std::string log, long address);
 
 	void streamToFile() throw (std::logic_error);
 

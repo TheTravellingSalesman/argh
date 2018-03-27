@@ -26,13 +26,20 @@
 //
 class Timer {
 public:
-	Timer();
-	void start() throw (std::runtime_error);
+	// Constructors
+	Timer();									// Default
+
+	// Functions
+	void start() throw (std::runtime_error);	
 	void stop() throw (std::logic_error);
-	long double getElapsedSeconds() const;
-	long double getElapsedMilliSeconds() const;
-	long double getElapsedMicroSeconds() const;
+
+	// Accessors
+	long double getElapsedSeconds();
+	long double getElapsedMilliSeconds();
+	long double getElapsedMicroSeconds();
+
 private:
+	// Data items
 	struct timeval beginTime;
 	struct timeval duration;
 	long double startTime;

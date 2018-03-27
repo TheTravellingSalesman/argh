@@ -42,10 +42,14 @@ public:
 
 	// Struct for information about individual operations within this process
 	struct Operation {
+		// Parameterized constructor
 		Operation(char opCode, std::string opDescription, int cycleTime)
 			: code(opCode), descriptor(opDescription), time(cycleTime) {
 			codeToType();
 		};
+
+		// Copy constructor
+		Operation(const Operation& other) :code(other.code), descriptor(other.descriptor), time(other.time) { codeToType(); };
 
 		void codeToType() {
 			switch (code) {
@@ -56,7 +60,7 @@ public:
 					type = "application";
 					break;
 				case 'P':
-					type = " processing action";
+					type = "processing action";
 					break;
 				case 'I':
 					type = " input";
@@ -65,7 +69,7 @@ public:
 					type = " output";
 					break;
 				case 'M':
-					type = " memory allocated at ";
+					type = "memory allocated at ";
 					break;
 				default:
 					type = "Operation type error";
@@ -83,13 +87,15 @@ public:
 
 	// Member functions
 	void changeState(State newState);
-	bool run() throw (std::logic_error);
-	void addOperation(Operation newOp);
+	bool run();
+	void addOperation(Operation &newOp);
 	
 	// Accessors
 	int getPID() const;
 	long getRunTimeInMilliSeconds(Operation operation) const;
 	State getState() const;
+	std::string stateAsString(State state) const;
+	void printOperationsQueue() const;
 
 private:
 
@@ -100,7 +106,7 @@ private:
 	// Private data
 	int processID;
 	State processState;
-	std::vector<Operation>* OperationsQueue;
+	std::vector<Operation> OperationsQueue;
 };
 
 #endif // !PROCESSCONTROLBLOCK_H

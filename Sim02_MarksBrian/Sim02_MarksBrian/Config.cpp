@@ -87,8 +87,14 @@ int Config::GetOperationTime(char metaCode, std::string metaDescriptor ) const t
 	throw std::logic_error("Config file does not contain timing information for a Meta-Data operation; check Config file.");
 }
 
+/** Get Available kBytes
+*	\n A getter function for the kBytes available in system memory
+*	@return the amount of space available in kbytes
+*	@pre configInfo must be initialized
+*	@throw couldn't determine space available
+*/
 long Config::GetKbytesAvailable() const throw(std::logic_error){
-	long unsigned int element = (configInfo.size() - 4);
+	long unsigned int element = (configInfo.size()-1);
 	if (configInfo[element].first[15] == 'k') {
 		return configInfo[element].second;
 	}
@@ -150,6 +156,13 @@ void Config::ConfigInit(char* fileIn) throw (std::logic_error) {
 	fin.get();							// eat space
 	std::getline(fin, logPath);			// read in log path
 	ReadKey(fin, 'e');					// read in "End Simulator Configuration File"
+
+	// Done with configInfo for config purposes; Change format of configInfo to fit meta-data
+	for (unsigned int i = 0; i < configInfo.size(); i++) {
+		configInfo[i].first[0] = tolower(configInfo[i].first[0]);		// Make first letter of each descriptor lower-case
+	}
+
+	fin.close();
 }
 
 /** Set Log Setting
@@ -212,11 +225,8 @@ std::string Config::ReadKey(std::ifstream& fin, const char delimiter) throw(std:
 			case 9:
 				key = "Projector";
 				break;
-			case 10:
-				key = "System memory";
-				break;
 			default:
-				key = "Error in config key";
+				return key;
 			}
 
 			return key;					// Format/Spelling is accurate, return good key
@@ -226,12 +236,12 @@ std::string Config::ReadKey(std::ifstream& fin, const char delimiter) throw(std:
 	throw std::logic_error("Format/Spelling inaccurate; check config file.");		// This key was not found in list of possible config reads, throw error
 }
 
-/** Show Config
+/** Show Config		(FOR DEBUGGING, NOT GRADING)
 *	\n Outputs the configuration data to either the console, a specified file, or both.
 *	This is the last configuration data function which uses the descriptors, so this reformats that data for use in meta-data functions.
 *	@pre Configuration data must be loaded
 *	@param fout is the file to which the configuration data will be output
-*/
+*
 void Config::ShowConfig(std::ofstream& fout) {
 	OpenLogPath(fout);		// Open the log file (if not already open)
 
@@ -276,3 +286,4 @@ void Config::ShowConfig(std::ofstream& fout) {
 		configInfo[i].first[0] = tolower(configInfo[i].first[0]);		// Make first letter of each descriptor lower-case
 	}
 }
+*/
