@@ -1,10 +1,10 @@
 /**
 *	@file Config.h
 *	@author Brian Marks
-*	@version 1.2
+*	@version 1.3
 *	@details Class declaration for the storing and handling of Configuration file data
-*	@note 1.2 update: Adjusted ReadKey to be compatible with new configuration file format/descriptor options.
-*	@date Monday, Feb. 26, 2018
+*	@note 1.3 update: Adjusted ReadKey to be compatible with new configuration file format/descriptor options.
+*	@date Wednesday, March 28, 2018
 */
 
 //
@@ -35,7 +35,6 @@ public:
 	void OpenLogPath(std::ofstream& logFile) throw(std::logic_error);
 	std::string GetLogSetting() const;
 	int GetOperationTime(char metaCode, std::string metaDescriptor) const throw(std::logic_error);
-	long GetKbytesAvailable() const throw(std::logic_error);
 
 	// Sets
 	void ConfigInit(char* fileIn) throw (std::logic_error);
@@ -54,7 +53,7 @@ public:
 
 private:
 	// Error Handling Data Items
-	std::string configReads[16] = { "Start Simulator Configuration File",
+	std::string configReads[21] = { "Start Simulator Configuration File",
 		"Version/Phase:",
 		"File Path",
 		"Monitor display time {msec}",
@@ -67,6 +66,11 @@ private:
 		"System memory {kbytes}",
 		"System memory {Mbytes}",
 		"System memory {Gbytes}",
+		"Memory block size {kbytes}",
+		"Memory block size {Mbytes}",
+		"Memory block size {Gbytes}",
+		"Projector quantity",
+		"Hard drive quantity", 
 		"Log:",
 		"Log File Path",
 		"End Simulator Configuration Fil" };		// Array holding all possible valid config file key reads (for spell checking)

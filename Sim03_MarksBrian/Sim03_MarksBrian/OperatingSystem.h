@@ -24,6 +24,7 @@
 #include "Config.h"
 #include "Log.h"
 #include "ProcessControlBlock.h"
+#include "ResourceManager.h"
 
 extern Config conf;
 extern Log logger;
@@ -64,6 +65,9 @@ private:
 	// Container of all processes (set of meta-data codes A{begin}0; to A{finish}0;)
 	std::vector<ProcessControlBlock> processQueue;
 
+	// Resource manager
+	ResourceManager resourceManager;
+	
 	// Control statuses
 	bool systemStarted;
 	bool systemExited;

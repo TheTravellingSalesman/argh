@@ -25,6 +25,7 @@ OperatingSystem::OperatingSystem() {
 	metaDataProcessed = false;
 	processCount = 0;
 	processMetaData();
+	resourceManager.initializeResources();
 }
 
 /**	Process Meta Data
@@ -128,13 +129,14 @@ void OperatingSystem::addOperation(ProcessControlBlock &process, MetaDataItem ne
 *	@throw Cannot run the simulation before the meta-data has been processed
 */
 void OperatingSystem::runSimulation() throw (std::logic_error){
+
 	if (metaDataProcessed) {
 		// Start timestamp timer
 		logger.initializeLogSettings();
 
 		// Log: (ts) Simulator Program Starting
 		logger.writeWithTimestamp("Simulator program starting");
-
+		
 		// Loop through processes
 		for (unsigned int i = 0; i < processQueue.size(); i++) {
 			// Log: (ts) OS: Preparing Process (i)
@@ -149,7 +151,7 @@ void OperatingSystem::runSimulation() throw (std::logic_error){
 
 			// Run Process
 			bool processOK = false;
-			processOK = processQueue[i].run();
+			processOK = processQueue[i].run(resourceManager);
 			if (!processOK) {
 				std::cout << i << " th " << std::endl;
 				throw std::logic_error("Process has failed to execute successfully.");

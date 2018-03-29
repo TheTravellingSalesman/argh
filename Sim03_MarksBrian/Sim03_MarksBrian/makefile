@@ -1,5 +1,5 @@
 # target executable name
-TARGET = Sim02
+TARGET = Sim03
 
 # Compiler
 CC=g++
@@ -8,10 +8,10 @@ CC=g++
 CXXFLAGS = -g -Wall -std=c++11
 
 # Source files
-SOURCES = Config.cpp Timer.cpp ProcessControlBlock.cpp OperatingSystem.cpp Log.cpp Sim03.cpp
+SOURCES = Config.cpp Timer.cpp ProcessControlBlock.cpp OperatingSystem.cpp Log.cpp MutexLock.cpp ResourceManager.cpp Sim03.cpp
 
 # header file dependencies
-HEADERS = Config.h Timer.h ProcessControlBlock.h OperatingSystem.h Log.h
+HEADERS = Config.h Timer.h ProcessControlBlock.h OperatingSystem.h Log.h MutexLock.h ResourceManager.h
 
 # Object files
 OBJECTS = $(SOURCES:.cpp=.o)

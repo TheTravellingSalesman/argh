@@ -1,10 +1,10 @@
 /**
-*	@file Sim02.cpp
-*	@mainpage Sim02
+*	@file Sim03.cpp
+*	@mainpage Sim03
 *	@author Brian Marks
-*	@version 1.2
-*	@details First phase of a simulation of an operating system. This phase handles the simulation of running a single process within the system.
-*	@date Monday, Feb. 26, 2018
+*	@version 1.3
+*	@details Second phase of a simulation of an operating system. This phase adds resource management to the previous functionality.
+*	@date Wednesday, March 28, 2018
 */
 
 //
@@ -16,10 +16,12 @@
 #include "Config.h"
 #include "Log.h"
 #include "OperatingSystem.h"
+#include "MutexLock.h"
 
 // Global declaration of shared classes
 Config conf;
 Log logger;
+MutexLock mutex;
 
 //
 // Main Function Implementation

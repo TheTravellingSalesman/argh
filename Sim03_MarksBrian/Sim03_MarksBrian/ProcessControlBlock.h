@@ -21,9 +21,12 @@
 #include "Timer.h"
 #include "Config.h"
 #include "Log.h"
+#include "MutexLock.h"
+#include "ResourceManager.h"
 
 extern Config conf;		// Forward declaration of global Config item initialized in main 
-extern Log logger;
+extern Log logger;		// Forward declaration of global log initialized in main
+extern MutexLock mutex; // Forward declaration of global mutex lock 
 
 //
 // Class Function Declarations ////////////
@@ -87,7 +90,7 @@ public:
 
 	// Member functions
 	void changeState(State newState);
-	bool run();
+	bool run(ResourceManager &rm);
 	void addOperation(Operation &newOp);
 	
 	// Accessors
@@ -100,8 +103,8 @@ public:
 private:
 
 	// Private functions
-	void RunOperation(Operation operation);
-	void HandleMemoryOperation(Operation operation);
+	void RunOperation(Operation operation, ResourceManager &rm);
+	void HandleMemoryOperation(Operation operation, ResourceManager &rm);
 
 	// Private data
 	int processID;

@@ -1,10 +1,10 @@
 /**
 *	@file Config.cpp
 *	@author Brian Marks
-*	@version 1.2
+*	@version 1.3
 *	@details Class definition for the storing and handling of Configuration file data
-*	@note 1.2 update: Adjusted ReadKey to be compatible with new configuration file format/descriptor options.
-*	@date Monday, Feb. 26, 2018
+*	@note 1.3 update: Adjusted ReadKey to be compatible with new configuration file format/descriptor options.
+*	@date Wednesday, March 28, 2018
 */
 
 //
@@ -85,28 +85,6 @@ int Config::GetOperationTime(char metaCode, std::string metaDescriptor ) const t
 	}
 
 	throw std::logic_error("Config file does not contain timing information for a Meta-Data operation; check Config file.");
-}
-
-/** Get Available kBytes
-*	\n A getter function for the kBytes available in system memory
-*	@return the amount of space available in kbytes
-*	@pre configInfo must be initialized
-*	@throw couldn't determine space available
-*/
-long Config::GetKbytesAvailable() const throw(std::logic_error){
-	long unsigned int element = (configInfo.size()-1);
-	if (configInfo[element].first[15] == 'k') {
-		return configInfo[element].second;
-	}
-	else if (configInfo[element].first[15] == 'M') {
-		return (configInfo[element].second * 1000);
-	}
-	else if (configInfo[element].first[15] == 'G') {
-		return (configInfo[element].second * 1000000);
-	}
-	else {
-		throw std::logic_error("Could not determine system memory size in kbytes, Mbytes, or Gbytes; Check config file.");
-	}
 }
 
 /** Config Init.
@@ -198,7 +176,6 @@ void Config::SetLogSetting(std::string type) throw(std::logic_error) {
 */
 std::string Config::ReadKey(std::ifstream& fin, const char delimiter) throw(std::logic_error) {
 	std::string key;					// Will hold the description for the following value in the config file
-
 	std::getline(fin, key, delimiter);	// Get line from the config file
 
 	for (unsigned int i = 0; i < (sizeof(configReads) / sizeof(configReads[0])); i++) {

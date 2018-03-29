@@ -4,7 +4,7 @@
 *	@version 1.0
 *	@brief This is the implementation file for the ProcessControlBlock class. The result will be an executable process for the simulated operating system.
 *	@details Handles generation of threads used for processes, input, and output. Stores information about process and handles process functionality.
-*	@date Monday, Feb. 26, 2018
+*	@date Wednesday, March 28, 2018
 */
 
 /**
@@ -36,7 +36,6 @@ typedef ProcessControlBlock::State State;
 *	@param threadarg is the time for which the thread will sleep
 */
 void* uSleepThread(void* threadarg) {
-
 	// Take in the parameter, which is the time this process will sleep
 	long sleepTimeMicroSec = (long)threadarg;
 
@@ -62,7 +61,7 @@ void ProcessControlBlock::changeState(State newState){
 *	\n Executes the process from beginning to end
 *	@pre OperationsQueue must be filled with operations for the process to complete.
 */
-bool ProcessControlBlock::run(){
+bool ProcessControlBlock::run(ResourceManager &rm){
 	Operation* anOp;
 
 	// Loop through all processes that need to be completed, in order
@@ -74,14 +73,36 @@ bool ProcessControlBlock::run(){
 			pthread_t ioThread;
 			// Set process to WAITING
 			processState = WAITING;
-			
-			// Log: Process (pid): start (anOp->descriptor) (anOp->type)
-			logger.writeWithTimestamp("Process " + std::to_string(processID+1) + ": start " + anOp->descriptor + anOp->type);
 
-			long runTime = getRunTimeInMilliSeconds(*anOp);				// Get run time for operation in milliseconds
-			runTime = runTime * 1000;									// Convert to microseconds
-			void* runningTime = (void*)runTime;							// Explicitly cast run time to (void*)
-			pthread_create(&ioThread, NULL, uSleepThread, runningTime);
+			// Wait for the thread to be free
+			while (mutex.TestAndSet() == 1);
+
+				// CRITICAL SECTION
+
+				// Log differs based on device
+				if (anOp->descriptor == "projector"){
+					// Log: Process (pid): start (anOp->descriptor) (anOp->type) on PROJ (rm.CheckSetProjector)
+					logger.writeWithTimestamp("Process " + std::to_string(processID + 1) + ": start " + anOp->descriptor 
+												+ anOp->type + " on PROJ " + std::to_string(rm.CheckSetProjector()));
+				}
+				else if (anOp->descriptor == "hard drive") {
+					// Log: Process (pid): start (anOp->descriptor) (anOp->type) on HDD (rm.CheckSetHardDrive)
+					logger.writeWithTimestamp("Process " + std::to_string(processID + 1) + ": start " + anOp->descriptor
+						+ anOp->type + " on HDD " + std::to_string(rm.CheckSetHardDrive()));
+				}
+				else {
+					// Log: Process (pid): start (anOp->descriptor) (anOp->type)
+					logger.writeWithTimestamp("Process " + std::to_string(processID + 1) + ": start " + anOp->descriptor + anOp->type);
+				}
+
+				long runTime = getRunTimeInMilliSeconds(*anOp);				// Get run time for operation in milliseconds
+				runTime = runTime * 1000;									// Convert to microseconds
+				void* runningTime = (void*)runTime;							// Explicitly cast run time to (void*)
+				pthread_create(&ioThread, NULL, uSleepThread, runningTime);
+
+			// Unlock the thread
+			mutex.Unlock();
+
 			pthread_join(ioThread, NULL);
 			
 			// Log: Process (pid): end (anOp->descriptor) (anOp->type)
@@ -92,7 +113,7 @@ bool ProcessControlBlock::run(){
 		}
 		// Otherwise just run the operation
 		else{
-			RunOperation(*anOp);
+			RunOperation(*anOp, rm);
 		}
 	}
 	// Process executed successfully!
@@ -171,10 +192,10 @@ void ProcessControlBlock::printOperationsQueue() const{
 *	\n Run one operation (simulation).
 *	@param operation to be run
 */
-void ProcessControlBlock::RunOperation(Operation operation){
+void ProcessControlBlock::RunOperation(Operation operation, ResourceManager &rm){
 
 	if (operation.type == "memory allocated at ") {
-		HandleMemoryOperation(operation);
+		HandleMemoryOperation(operation, rm);
 	}
 	else {
 		// Log: (ts) Process (pid): start (operation)
@@ -196,12 +217,11 @@ void ProcessControlBlock::RunOperation(Operation operation){
 *	\n Handles operations on memory. Sets a random memory addresss when allocating memory.
 *	@param operation to be run
 */
-void ProcessControlBlock::HandleMemoryOperation(Operation operation){
+void ProcessControlBlock::HandleMemoryOperation(Operation operation, ResourceManager &rm){
 	if (operation.descriptor == "allocate") {
 		logger.writeWithTimestamp("Process " + std::to_string(processID + 1) + ": allocating memory" );
-		// Seed Random Number Generator for memory address generation
-		srand(time(NULL));
-		long address = (rand() % conf.GetKbytesAvailable());
+
+		long address = rm.CheckSetMemory();
 		// Log: (ts) Process (pid): (operation.type) 0x(address::hex)
 		logger.writeWithAddress("Process " + std::to_string(processID+1) + ": " + operation.type + "0x", address);
 	}

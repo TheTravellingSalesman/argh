@@ -63,16 +63,20 @@
   <ItemGroup>
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Log.cpp" />
+    <ClCompile Include="MutexLock.cpp" />
     <ClCompile Include="OperatingSystem.cpp" />
     <ClCompile Include="ProcessControlBlock.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Sim03.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Config.h" />
     <ClInclude Include="Log.h" />
+    <ClInclude Include="MutexLock.h" />
     <ClInclude Include="OperatingSystem.h" />
     <ClInclude Include="ProcessControlBlock.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
