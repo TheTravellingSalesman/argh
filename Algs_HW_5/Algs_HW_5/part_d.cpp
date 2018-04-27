@@ -15,7 +15,7 @@ int x_i[4] = { 1, 10, 10, 1 };
 int f_i[4] = { 1, 2, 4, 8 };
 
 // Matrix filled with all possible firing/holding combinations; dimensions are n+1 x n+1; initialized to 0
-int combos[n + 1][n + 1] = { {0, 0, 0, 0, 0} };
+int combos[n + 1][n + 1] = { { 0, 0, 0, 0, 0 } };
 int disabled[n + 1][n + 1] = { { 0, 0, 0, 0, 0 } };
 
 // Max function: if NOW is the max value, FIRE, if NEXT is the max value HOLD
@@ -40,20 +40,31 @@ int min(int drones, int charge) {
 	}
 }
 
+// Firing times function: load fire boolean array with the seconds at which the laser should be fired
+void setFiringTimes(int index, int* maxColIndex) {
+	if (index > 0) {
+		fire[index-1] = true;
+
+		setFiringTimes(index - maxColIndex[index], maxColIndex);
+	}
+}
+
 
 // Update part b to enable the reconstruction of the optimal solution for the best times to fire the laser (auxilliary table)
 int main() {
 	// Load combos matrix with all possible firing times
 	for (int i = 1; i <= n; i++) {						// rows
 		for (int j = 1; j <= i; j++) {					// cols
-			// Add the current index with the 
-			combos[i][j] = min(x_i[i - 1], f_i[j-1]);
+														// Add the current index with the 
+			combos[i][j] = min(x_i[i - 1], f_i[j - 1]);
 		}
 	}
 
 
 	// Max value for each row
 	int max = 0;
+
+	// Columnar index of maximum value
 	int maxColIndex[4] = { 0 };
 
 	// Load alternate array for optimal solution for disabled 
@@ -71,17 +82,29 @@ int main() {
 		max = 0;
 	}
 
-	// Print auxilliary table
+	// Load boolean array with firing times
+	setFiringTimes(n, maxColIndex);
+
+	// Print table for which seconds to fire at
 	cout << endl;
-	cout << '\t' << "Auxilliary Decision Matrix" << endl;
-	cout << '\t' << "==========================" << endl;
+	cout << '\t' << "Firing Schedule" << endl;
+	cout << '\t' << "===============" << endl;
+	cout << "Sec:";
 	for (int i = 1; i <= n; i++) {
-		for (int j = 1; j <= n; j++) {
-			cout << '\t' << disabled[i][j];
-		}
-		cout << endl;
+		cout << '\t' << i;
 	}
 	cout << endl;
-
+	cout << "Fire:";
+	for (int i = 0; i < n; i++) {
+		cout << '\t';
+		if (fire[i]) {
+			cout << 'X';
+		}
+		else {
+			cout << ' ';
+		}
+	}
+	cout << endl << endl;
+	
 	return 0;
 }

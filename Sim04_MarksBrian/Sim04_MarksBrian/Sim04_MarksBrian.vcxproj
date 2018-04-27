@@ -27,9 +27,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{43bcba85-0507-4d46-aea7-9a00ca5c67e5}</ProjectGuid>
+    <ProjectGuid>{d1f386d2-feb8-4db7-a1ab-d87bbee0b93f}</ProjectGuid>
     <Keyword>Linux</Keyword>
-    <RootNamespace>Algs_HW_5</RootNamespace>
+    <RootNamespace>Sim04_MarksBrian</RootNamespace>
     <MinimumVisualStudioVersion>15.0</MinimumVisualStudioVersion>
     <ApplicationType>Linux</ApplicationType>
     <ApplicationTypeRevision>1.0</ApplicationTypeRevision>
@@ -61,9 +61,26 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
-    <ClCompile Include="part_b.cpp" />
-    <ClCompile Include="part_c.cpp" />
-    <ClCompile Include="part_d.cpp" />
+    <ClCompile Include="Config.cpp" />
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="Lock.cpp" />
+    <ClCompile Include="OperatingSystem.cpp" />
+    <ClCompile Include="ProcessControlBlock.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Sim04.cpp" />
+    <ClCompile Include="Timer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Config.h" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="Lock.h" />
+    <ClInclude Include="OperatingSystem.h" />
+    <ClInclude Include="ProcessControlBlock.h" />
+    <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Timer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="makefile" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
